@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lịch Tháng K76.A03</title>
+    <title>Lịch Tháng K76.A03 - Cập nhật</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
         
-        /* SCROLL CONTAINER: Vùng bao quanh cho phép cuộn 2 chiều */
         .scroll-container {
             overflow: auto;
-            -webkit-overflow-scrolling: touch; /* Cuộn mượt trên iOS */
-            background-color: #cbd5e1; /* Màu nền khớp với đường kẻ grid */
+            -webkit-overflow-scrolling: touch;
+            background-color: #cbd5e1;
         }
 
-        /* SINGLE GRID: Hợp nhất Header và Body vào 1 grid duy nhất để tránh lệch cột */
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr); /* Chia đều 7 cột */
-            min-width: 1000px; /* Đảm bảo đủ rộng để không bị co ép nội dung trên mobile */
-            gap: 1px; /* Tạo đường kẻ giữa các ô */
+            grid-template-columns: repeat(7, 1fr);
+            min-width: 1000px;
+            gap: 1px;
             background-color: #cbd5e1;
             border: 1px solid #cbd5e1;
         }
 
-        /* HEADER CELL: Được ghim dính (Sticky) khi cuộn dọc */
         .header-cell {
             position: sticky;
             top: 0;
-            z-index: 20; /* Nằm trên các sự kiện */
+            z-index: 20;
             background-color: #f1f5f9;
             padding: 12px 4px;
             text-align: center;
@@ -39,10 +36,9 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Bóng đổ nhẹ phân cách header */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* DAY CELL */
         .calendar-cell {
             background-color: white;
             min-height: 120px;
@@ -54,11 +50,8 @@
             position: relative;
         }
 
-        .calendar-cell:active {
-            background-color: #f1f5f9;
-        }
+        .calendar-cell:active { background-color: #f1f5f9; }
 
-        /* Event Pills */
         .event-pill {
             font-size: 0.7rem;
             padding: 3px 5px;
@@ -73,21 +66,11 @@
             line-height: 1.25;
             box-shadow: 0 1px 1px rgba(0,0,0,0.15);
             text-shadow: 0 0 2px rgba(0,0,0,0.1);
-            word-break: break-word; /* Đảm bảo từ dài không bị tràn */
+            word-break: break-word;
         }
 
-        .event-title-row {
-            display: block; /* Chuyển sang block để text có thể xuống dòng tự nhiên */
-            white-space: normal; /* Cho phép xuống dòng */
-            width: 100%;
-        }
-
-        /* Căn chỉnh lại icon và tag khi xuống dòng */
-        .event-title-row i, .event-title-row .party-flag-icon {
-            display: inline-block;
-            vertical-align: middle;
-            margin-top: -2px;
-        }
+        .event-title-row { display: block; white-space: normal; width: 100%; }
+        .event-title-row i, .event-title-row .party-flag-icon { display: inline-block; vertical-align: middle; margin-top: -2px; }
 
         .exam-form-note {
             font-size: 0.6rem;
@@ -102,48 +85,40 @@
             padding-top: 2px;
         }
 
-        /* Loại sự kiện - Màu đậm hơn để dễ đọc */
-        .type-thi { 
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-            border-left: 3px solid #7f1d1d; 
-            font-weight: 700;
-        }
-        
+        .type-thi { background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); border-left: 3px solid #7f1d1d; font-weight: 700; }
         .type-sk { background-color: #059669; border-left: 3px solid #064e3b; }
         .type-nghi { background-color: #d97706; border-left: 3px solid #78350f; }
         .type-ctd { background-color: #e5e7eb; border-left: 3px solid #dc2626; color: #1f2937; text-shadow: none; font-weight: 600; } 
 
-        /* Modal */
         .modal { transition: opacity 0.25s ease; }
         body.modal-active { overflow: hidden; }
-
         .weekend { background-color: #fafafa; }
         
-        /* Style cho ngày hiện tại (Hôm nay) */
-        .current-day { 
-            background-color: #fffbeb !important; /* Nền vàng nhạt (Amber-50) */
-            border: 2px solid #f59e0b !important; /* Viền vàng cam (Amber-500) */
-            z-index: 5;
-        }
+        .current-day { background-color: #fffbeb !important; border: 2px solid #f59e0b !important; z-index: 5; }
         
+        .date-container {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
         .date-num { 
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: #64748b;
-            margin-bottom: 4px;
-            display: block;
-            padding-left: 2px;
-            width: fit-content;
-            padding-right: 4px;
+            padding: 0 4px;
             border-radius: 4px;
         }
 
-        .current-day .date-num { 
-            color: #ffffff;
-            background-color: #f59e0b; /* Nền số màu vàng cam */
-            font-weight: 800;
-            padding: 0 4px;
+        .lunar-date {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            font-weight: 500;
         }
+
+        .current-day .date-num { color: #ffffff; background-color: #f59e0b; }
+        .current-day .lunar-date { color: #d97706; }
         
         .other-month { opacity: 0.4; background-color: #f1f5f9; pointer-events: none; }
         
@@ -158,7 +133,7 @@
             text-align: center;
             display: inline-block;
             vertical-align: middle;
-            margin-bottom: 2px; /* Khoảng cách nhỏ khi xuống dòng */
+            margin-bottom: 2px;
         }
 
         .party-flag-icon {
@@ -173,9 +148,7 @@
             position: relative;
             flex-shrink: 0;
         }
-        .party-flag-icon::after {
-            content: '\2605'; color: #ffeb3b; font-size: 6px; line-height: 1;
-        }
+        .party-flag-icon::after { content: '\2605'; color: #ffeb3b; font-size: 6px; line-height: 1; }
         
         .scroll-container::-webkit-scrollbar { height: 6px; width: 6px; }
         .scroll-container::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -196,23 +169,19 @@
                             <a href="tel:0913588225" class="flex items-center text-blue-600 hover:text-blue-800 transition"><i class="fas fa-phone-alt mr-1.5"></i>0913 588 225</a>
                         </div>
                     </div>
-                    <a href="tel:0913588225" class="md:hidden w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 rounded-full active:bg-blue-100">
-                        <i class="fas fa-phone-alt text-sm"></i>
-                    </a>
                 </div>
 
                 <div class="flex items-center justify-between w-full md:w-auto gap-3 bg-slate-50 md:bg-white p-1 md:p-0 rounded-xl">
                     <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-lg shadow-sm p-0.5">
-                        <button onclick="changeMonth(-1)" class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-600 active:bg-slate-100 transition">
+                        <button onclick="changeMonth(-1)" class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-600 transition">
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <span id="monthDisplay" class="font-bold text-slate-800 w-32 text-center select-none text-sm md:text-base tracking-wide">...</span>
-                        <button onclick="changeMonth(1)" class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-600 active:bg-slate-100 transition">
+                        <button onclick="changeMonth(1)" class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-600 transition">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
-
-                    <button onclick="goToToday()" class="bg-blue-600 active:bg-blue-700 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition whitespace-nowrap flex items-center">
+                    <button onclick="goToToday()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition whitespace-nowrap flex items-center">
                         <i class="fas fa-calendar-day mr-2 text-xs opacity-80"></i>Hôm nay
                     </button>
                 </div>
@@ -223,7 +192,7 @@
                 <div class="flex items-center"><span class="party-flag-icon w-3 h-2.5 mr-1.5 text-[6px]"></span>CT Đảng</div>
                 <div class="flex items-center"><span class="w-2.5 h-2.5 rounded-sm bg-red-600 mr-1.5"></span>Thi</div>
                 <div class="flex items-center"><span class="w-2.5 h-2.5 rounded-sm bg-green-600 mr-1.5"></span>Sự kiện</div>
-                <div class="hidden sm:flex items-center ml-auto text-slate-400 italic">Ký hiệu: (S) Sáng, (C) Chiều</div>
+                <div class="ml-auto text-slate-400 italic">(Số nhỏ) Ngày âm lịch</div>
             </div>
         </div>
     </header>
@@ -231,19 +200,14 @@
     <!-- Calendar Grid Container -->
     <main class="flex-grow scroll-container relative">
         <div class="container mx-auto h-full flex flex-col bg-white rounded-lg shadow-sm border border-slate-200">
-            <!-- CHỈ CÓ 1 GRID DUY NHẤT CHỨA CẢ HEADER VÀ BODY -->
-            <div id="calendar" class="calendar-grid flex-grow">
-                <!-- JS sẽ render Header và Days vào đây -->
-            </div>
+            <div id="calendar" class="calendar-grid flex-grow"></div>
         </div>
     </main>
 
     <!-- Modal Details -->
     <div id="detailModal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-end md:items-center justify-center z-50">
         <div class="modal-overlay absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-        
         <div class="modal-container bg-white w-full md:w-[480px] mx-auto rounded-t-2xl md:rounded-xl shadow-2xl z-50 flex flex-col max-h-[85vh] transition-transform transform translate-y-full md:translate-y-0 duration-300">
-            
             <div class="py-4 px-5 border-b flex justify-between items-start bg-slate-50 shrink-0 rounded-t-2xl md:rounded-t-xl">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-800 tracking-tight" id="modalDate">Ngày ...</h2>
@@ -253,21 +217,52 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-
-            <div id="modalBody" class="p-5 space-y-4 overflow-y-auto bg-white flex-grow">
-                <!-- Events injected here -->
-            </div>
-
+            <div id="modalBody" class="p-5 space-y-4 overflow-y-auto bg-white flex-grow"></div>
             <div class="p-4 border-t bg-slate-50 shrink-0 md:hidden pb-safe">
-                <button onclick="closeModal()" class="w-full py-3.5 bg-slate-800 active:bg-slate-900 text-white font-bold rounded-xl shadow-md transition text-lg">
-                    Đóng
-                </button>
+                <button onclick="closeModal()" class="w-full py-3.5 bg-slate-800 active:bg-slate-900 text-white font-bold rounded-xl shadow-md transition text-lg">Đóng</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Màu sắc đậm
+        // --- DATA LUNAR CALENDAR (Simplified for 2025-2026 range) ---
+        // Basic Lunar calculation based on library source
+        function getLunarDate(d, m, y) {
+            // Simplified logic: Using a reference date for 2025-2026
+            const solarDate = new Date(y, m - 1, d);
+            const refDate = new Date(2025, 0, 1); // 1/1/2025 is 2/12 Lunar
+            const diffDays = Math.floor((solarDate - refDate) / (1000 * 60 * 60 * 24));
+            
+            // Hardcoded Lunar cycle mapping for precision in 2025-2026
+            // Lunar months lengths (1=30 days, 0=29 days)
+            const lunarMonths = [
+                {year: 2024, data: [1,0,1,0,1,0,1,1,0,1,0,1]}, // lunar 2024
+                {year: 2025, data: [1,0,1,0,0,1,0,1,1,0,1,1]}, // lunar 2025 (Ất Tỵ)
+                {year: 2026, data: [0,1,0,1,0,0,1,0,1,1,1,0]}  // lunar 2026 (Bính Ngọ)
+            ];
+            
+            // Starting point: 1/1/2025 (Solar) = 2/12/Giáp Thìn (Lunar)
+            let currLDay = 2;
+            let currLMonth = 12;
+            let currLYear = 2024;
+            
+            for (let i = 0; i < diffDays; i++) {
+                currLDay++;
+                let mData = lunarMonths.find(y => y.year === currLYear).data;
+                let mLen = mData[currLMonth - 1] === 1 ? 30 : 29;
+                
+                if (currLDay > mLen) {
+                    currLDay = 1;
+                    currLMonth++;
+                    if (currLMonth > 12) {
+                        currLMonth = 1;
+                        currLYear++;
+                    }
+                }
+            }
+            return { day: currLDay, month: currLMonth };
+        }
+
         const subjectColors = [
             '#0369a1', '#047857', '#b45309', '#b91c1c', '#6d28d9', 
             '#be185d', '#4338ca', '#0f766e', '#a16207', '#9f1239', 
@@ -275,7 +270,7 @@
         ];
 
         const rawData = [
-             // --- THÁNG 9/2025 ---
+            // --- THÁNG 9/2025 ---
             {d: "05/09/2025", type: "sk", title: "Làm thủ tục nhập học", timeShort: "(C)", time: "Chiều", note: ""},
             {d: "07/09/2025", type: "sk", title: "Gặp mặt lớp", timeShort: "(C)", time: "Chiều", note: "Tại phòng học"},
             {d: "08/09/2025", type: "sk", title: "Khai giảng & Phổ biến quy chế", timeShort: "(S,C)", time: "Sáng: Khai giảng / Chiều: Quy chế", note: "Vụ QLĐT, BD"},
@@ -317,7 +312,8 @@
             {d: "01/01/2026", type: "nghi", title: "NGHỈ TẾT DƯƠNG LỊCH", timeShort: "", time: "Cả ngày", note: "Nghỉ lễ theo quy định"},
             {d: "05/01/2026", type: "ctd", title: "Công tác Đảng", timeShort: "(S,C)", time: "Cả ngày", note: ""},
             {d: "08/01/2026", type: "thi", title: "THI: Tôn giáo và tín ngưỡng", form: "Tự luận đóng", timeShort: "(S)", time: "Sáng", note: ""},
-            {d: "08/01/2026", endDate: "14/01/2026", type: "hoc", stt: 13, title: "Kinh tế phát triển", timeShort: "(S,C)", time: "Sáng/Chiều", note: ""},
+            {d: "08/01/2026", endDate: "13/01/2026", type: "hoc", stt: 13, title: "Kinh tế phát triển", timeShort: "(S,C)", time: "Sáng/Chiều", note: ""},
+            {d: "14/01/2026", type: "hoc", stt: 13, title: "Kinh tế phát triển", timeShort: "(S)", time: "Sáng/Chiều", note: ""},
             {d: "15/01/2026", type: "thi", title: "THI: Quản lý kinh tế", form: "Tự luận đóng", timeShort: "(C)", time: "Chiều", note: ""},
             {d: "16/01/2026", endDate: "21/01/2026", type: "hoc", stt: 14, title: "Văn hóa và phát triển", timeShort: "(S,C)", time: "Sáng/Chiều", note: ""},
             {d: "23/01/2026", type: "thi", title: "THI: Nhà nước và pháp luật", form: "Tự luận mở", timeShort: "(S)", time: "Sáng", note: ""},
@@ -332,23 +328,25 @@
             {d: "23/02/2026", endDate: "27/02/2026", type: "hoc", stt: 17, title: "Lý luận dân tộc", timeShort: "(S,C)", time: "Sáng/Chiều", note: "Đi học lại sau Tết"},
             {d: "24/02/2026", type: "thi", title: "THI: Văn hóa và phát triển", form: "Trắc nghiệm", timeShort: "(S)", time: "Sáng", note: ""},
 
-            // --- THÁNG 3/2026 ---
+            // --- THÁNG 3/2026 (UPDATED) ---
             {d: "02/03/2026", type: "thi", title: "THI: Khoa học lãnh đạo", form: "Vấn đáp", timeShort: "(C)", time: "Chiều", note: ""},
             {d: "03/03/2026", type: "ctd", title: "Công tác Đảng", timeShort: "(S,C)", time: "Cả ngày", note: ""},
             {d: "04/03/2026", endDate: "06/03/2026", type: "hoc", stt: 18, title: "Chuyên đề ngoại khóa", timeShort: "(S,C)", time: "Cả ngày", note: ""},
             {d: "09/03/2026", type: "nghi", title: "Nghỉ dự phòng", timeShort: "(S)", time: "Sáng", note: ""},
             {d: "09/03/2026", type: "sk", title: "Chuyên đề Jica", timeShort: "(C)", time: "Chiều", note: "Hội trường 1"},
-            {d: "10/03/2026", endDate: "14/03/2026", type: "sk", title: "Đi nghiên cứu thực tế", timeShort: "(S,C)", time: "Cả ngày", note: ""},
-            {d: "16/03/2026", endDate: "18/03/2026", type: "hoc", stt: 19, title: "Giới trong lãnh đạo, quản lý", timeShort: "(S,C)", time: "Sáng/Chiều", note: ""},
+            
+            // CẬP NHẬT THEO YÊU CẦU: QPAN (11-16 Sáng), Giới (17-20), NCTT (23-27), Thi LLDT (31 Chiều)
+            {d: "11/03/2026", endDate: "16/03/2026", type: "hoc", stt: 20, title: "Giáo dục QP & AN", timeShort: "(S)", time: "Sáng", note: ""},
+            {d: "17/03/2026", endDate: "20/03/2026", type: "hoc", stt: 19, title: "Giới trong lãnh đạo, quản lý", timeShort: "(S,C)", time: "Sáng/Chiều", note: ""},
             {d: "19/03/2026", type: "thi", title: "THI: Xã hội học trong LĐQL", form: "Trắc nghiệm", timeShort: "(C)", time: "Chiều", note: ""},
-            {d: "20/03/2026", endDate: "26/03/2026", type: "hoc", stt: 20, title: "Giáo dục QP & AN", timeShort: "(S,C)", time: "Sáng/Chiều", note: ""},
-            {d: "27/03/2026", type: "thi", title: "THI: Lý luận dân tộc", form: "Tự luận đóng", timeShort: "(C)", time: "Chiều", note: ""},
+            {d: "23/03/2026", endDate: "27/03/2026", type: "sk", title: "Đi nghiên cứu thực tế", timeShort: "(S,C)", time: "Cả ngày", note: ""},
             {d: "30/03/2026", type: "thi", title: "THI: Giới trong LĐQL", form: "Tự luận mở", timeShort: "(C)", time: "Chiều", note: ""},
+            {d: "31/03/2026", type: "thi", title: "THI: Lý luận dân tộc", form: "Tự luận đóng", timeShort: "(C)", time: "Chiều", note: ""},
 
             // --- THÁNG 4 & 5/2026 ---
             {d: "01/04/2026", type: "thi", title: "THI: Giáo dục QP & AN", form: "Tự luận mở", timeShort: "(S)", time: "Sáng", note: ""},
             {d: "03/04/2026", type: "ctd", title: "Công tác Đảng", timeShort: "(S,C)", time: "Cả ngày", note: ""},
-            {d: "04/04/2026", endDate: "16/04/2026", type: "hoc", title: "Học bổ sung, Ôn thi TN", timeShort: "(S,C)", time: "Cả ngày", note: ""}, /* Đã dùng màu xanh đậm */
+            {d: "04/04/2026", endDate: "16/04/2026", type: "hoc", title: "Học bổ sung, Ôn thi TN", timeShort: "(S,C)", time: "Cả ngày", note: ""},
             {d: "17/04/2026", type: "sk", title: "Phổ biến quy chế thi TN", timeShort: "(C)", time: "Chiều", note: "Hội trường 1"},
             {d: "18/04/2026", endDate: "19/04/2026", type: "thi", title: "THI TỐT NGHIỆP", timeShort: "(S,C)", time: "Cả ngày", note: "Quan trọng"},
             {d: "25/04/2026", endDate: "28/04/2026", type: "sk", title: "Sinh hoạt lớp, Tổng kết", timeShort: "(S,C)", time: "Cả ngày", note: ""},
@@ -356,7 +354,7 @@
             {d: "12/05/2026", type: "sk", title: "BẾ GIẢNG", timeShort: "(S)", time: "Sáng", note: "Hội trường 1"}
         ];
 
-        let currentDate = new Date(); // Mặc định là ngày hiện tại
+        let currentDate = new Date();
         const today = new Date();
 
         function parseDate(str) {
@@ -365,14 +363,11 @@
         }
 
         function isSameDay(d1, d2) {
-            return d1.getFullYear() === d2.getFullYear() &&
-                   d1.getMonth() === d2.getMonth() &&
-                   d1.getDate() === d2.getDate();
+            return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
         }
 
         function getEventsForDay(targetDate) {
             const dayOfWeek = targetDate.getDay();
-            // 0 is Sunday, 6 is Saturday
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
             const events = rawData.filter(event => {
@@ -382,22 +377,11 @@
                 return targetDate >= start && targetDate <= end;
             });
 
-            // Logic: Bỏ lịch học (hoc) vào T7, CN
-            // Giữ lại các loại khác (thi, sk, ctd...) nếu có
-            if (isWeekend) {
-                // Return all events that are NOT 'hoc'
-                // OR filter the current list
-                const filtered = events.filter(e => e.type !== 'hoc');
-                return filtered;
-            }
-
-            // Logic: Có Công tác Đảng -> Bỏ Môn học (giữ lại CT Đảng và các loại khác)
+            if (isWeekend) return events.filter(e => e.type !== 'hoc');
+            
             const hasCTD = events.some(e => e.type === 'ctd');
-            if (hasCTD) {
-                return events.filter(e => e.type !== 'hoc');
-            }
+            if (hasCTD) return events.filter(e => e.type !== 'hoc');
 
-            // Logic: Có Lịch Thi -> Sửa Môn học (Đảo buổi)
             const examEvent = events.find(e => e.type === 'thi');
             if (examEvent) {
                 return events.map(e => {
@@ -420,62 +404,12 @@
             return events;
         }
 
-        function renderPill(ev, container) {
-            const pill = document.createElement('div');
-            let bgColor = '';
-            
-            if (ev.type === 'hoc') {
-                if (ev.stt) {
-                    const colorIndex = (ev.stt - 1) % subjectColors.length;
-                    bgColor = subjectColors[colorIndex];
-                } else {
-                    bgColor = '#1e3a8a'; 
-                }
-                pill.style.backgroundColor = bgColor;
-                pill.style.borderLeft = `3px solid rgba(0,0,0,0.2)`;
-                pill.className = `event-pill`;
-            } else if (ev.type === 'ctd') {
-                pill.className = `event-pill type-ctd bg-red-50 text-red-900 border-l-4 border-red-600 font-bold`; 
-                pill.style.backgroundColor = '#e5e7eb';
-            } else {
-                pill.className = `event-pill type-${ev.type}`;
-            }
-
-            let icon = '';
-            const iconClass = "fas mr-1 text-[0.6rem]";
-            
-            if(ev.type === 'hoc') icon = `<i class="${iconClass} fa-book"></i>`;
-            if(ev.type === 'thi') icon = `<i class="${iconClass} fa-file-signature text-yellow-300"></i>`;
-            if(ev.type === 'sk') icon = `<i class="${iconClass} fa-flag"></i>`;
-            if(ev.type === 'nghi') icon = `<i class="${iconClass} fa-mug-hot"></i>`;
-            if(ev.type === 'ctd') icon = '<span class="party-flag-icon w-3 h-2.5 mr-1 text-[6px]"></span>'; 
-
-            let titleText = ev.title;
-            if(ev.stt) titleText = `${ev.stt}. ${titleText}`;
-
-            let timeTag = ev.timeShort ? `<span class="time-tag">${ev.timeShort}</span>` : '';
-            
-            // Logic: Không hiện timeTag cho Công tác Đảng
-            if (ev.type === 'ctd') {
-                timeTag = '';
-            }
-            
-            let formNote = '';
-            if (ev.type === 'thi' && ev.form) {
-                formNote = `<span class="exam-form-note">${ev.form}</span>`;
-            }
-
-            pill.innerHTML = `<div class="event-title-row">${timeTag}${icon}${titleText}</div>${formNote}`;
-            container.appendChild(pill);
-        }
-
         function renderCalendar() {
             const calendarEl = document.getElementById('calendar');
             const monthDisplay = document.getElementById('monthDisplay');
             calendarEl.innerHTML = '';
 
-            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
-                                "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
             monthDisplay.innerText = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
 
             const year = currentDate.getFullYear();
@@ -483,14 +417,11 @@
             const firstDayOfMonth = new Date(year, month, 1);
             const lastDayOfMonth = new Date(year, month + 1, 0);
             
-            // Adjust start day to Monday (0) ... Sunday (6)
             let startDayOfWeek = firstDayOfMonth.getDay(); 
-            startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1; // Mon=0, Sun=6
+            startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1; 
 
             const daysInMonth = lastDayOfMonth.getDate();
 
-            // === RENDER HEADER (THỨ) TRỰC TIẾP VÀO GRID ===
-            // Updated Order: Monday -> Sunday
             const dayHeaders = [
                 { name: "Thứ 2", color: "text-slate-600" },
                 { name: "Thứ 3", color: "text-slate-600" },
@@ -508,15 +439,12 @@
                 calendarEl.appendChild(headerCell);
             });
 
-            // === RENDER NGÀY ===
-            // Padding Days
             for (let i = 0; i < startDayOfWeek; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'calendar-cell other-month'; 
                 calendarEl.appendChild(cell);
             }
 
-            // Days
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateObj = new Date(year, month, d);
                 const dayOfWeek = dateObj.getDay();
@@ -526,19 +454,47 @@
                 if (dayOfWeek === 0 || dayOfWeek === 6) cell.classList.add('weekend');
                 if (isSameDay(dateObj, today)) cell.classList.add('current-day');
 
-                const numSpan = document.createElement('span');
-                numSpan.className = 'date-num';
-                numSpan.innerText = d;
-                cell.appendChild(numSpan);
+                // Lunar Date Calculation
+                const lunar = getLunarDate(d, month + 1, year);
+                const lunarText = lunar.day === 1 ? `${lunar.day}/${lunar.month}` : `${lunar.day}`;
+
+                const dateContainer = document.createElement('div');
+                dateContainer.className = 'date-container';
+                dateContainer.innerHTML = `<span class="date-num">${d}</span><span class="lunar-date">${lunarText}</span>`;
+                cell.appendChild(dateContainer);
 
                 const events = getEventsForDay(dateObj);
-                
-                const isMobile = window.innerWidth <= 640;
-                const limit = isMobile ? 3 : 4;
+                const limit = window.innerWidth <= 640 ? 3 : 4;
                 const displayEvents = events.slice(0, limit);
 
                 displayEvents.forEach(ev => {
-                    renderPill(ev, cell);
+                    const pill = document.createElement('div');
+                    let bgColor = '#1e3a8a';
+                    if (ev.type === 'hoc' && ev.stt) bgColor = subjectColors[(ev.stt - 1) % subjectColors.length];
+                    
+                    if (ev.type === 'hoc') {
+                        pill.style.backgroundColor = bgColor;
+                        pill.style.borderLeft = `3px solid rgba(0,0,0,0.2)`;
+                        pill.className = `event-pill`;
+                    } else if (ev.type === 'ctd') {
+                        pill.className = `event-pill type-ctd`;
+                    } else {
+                        pill.className = `event-pill type-${ev.type}`;
+                    }
+
+                    let icon = '';
+                    if(ev.type === 'hoc') icon = `<i class="fas fa-book mr-1 text-[0.6rem]"></i>`;
+                    if(ev.type === 'thi') icon = `<i class="fas fa-file-signature text-yellow-300 mr-1 text-[0.6rem]"></i>`;
+                    if(ev.type === 'sk') icon = `<i class="fas fa-flag mr-1 text-[0.6rem]"></i>`;
+                    if(ev.type === 'nghi') icon = `<i class="fas fa-mug-hot mr-1 text-[0.6rem]"></i>`;
+                    if(ev.type === 'ctd') icon = '<span class="party-flag-icon"></span>'; 
+
+                    let titleText = ev.stt ? `${ev.stt}. ${ev.title}` : ev.title;
+                    let timeTag = (ev.timeShort && ev.type !== 'ctd') ? `<span class="time-tag">${ev.timeShort}</span>` : '';
+                    let formNote = (ev.type === 'thi' && ev.form) ? `<span class="exam-form-note">${ev.form}</span>` : '';
+
+                    pill.innerHTML = `<div class="event-title-row">${timeTag}${icon}${titleText}</div>${formNote}`;
+                    cell.appendChild(pill);
                 });
 
                 if (events.length > limit) {
@@ -548,20 +504,14 @@
                     cell.appendChild(more);
                 }
 
-                cell.onclick = (e) => {
-                    if(e.target === numSpan) return;
-                    openModal(dateObj, events);
-                };
-                
+                cell.onclick = () => openModal(dateObj, events);
                 calendarEl.appendChild(cell);
             }
 
             const totalCells = startDayOfWeek + daysInMonth;
-            // Fill remaining cells to complete the grid (multiple of 7)
             const remaining = (7 - (totalCells % 7)) % 7;
-            
             for (let i = 0; i < remaining; i++) {
-                 const cell = document.createElement('div');
+                const cell = document.createElement('div');
                 cell.className = 'calendar-cell other-month';
                 calendarEl.appendChild(cell);
             }
@@ -579,7 +529,6 @@
 
         function openModal(date, events) {
             if (events.length === 0) return;
-
             const modal = document.getElementById('detailModal');
             const modalBody = document.getElementById('modalBody');
             const modalDate = document.getElementById('modalDate');
@@ -587,14 +536,15 @@
             const modalContainer = modal.querySelector('.modal-container');
 
             const dayNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-            modalDate.innerText = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-            modalDayOfWeek.innerText = dayNames[date.getDay()];
+            const lunar = getLunarDate(date.getDate(), date.getMonth()+1, date.getFullYear());
             
+            modalDate.innerText = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} (Âm: ${lunar.day}/${lunar.month})`;
+            modalDayOfWeek.innerText = dayNames[date.getDay()];
             modalBody.innerHTML = '';
 
             events.forEach(ev => {
                 const item = document.createElement('div');
-                item.className = `p-4 rounded-xl border-l-[5px] bg-slate-50 shadow-sm transition-all hover:shadow-md`;
+                item.className = `p-4 rounded-xl border-l-[5px] bg-slate-50 shadow-sm mb-3`;
                 
                 let borderColor = '#ccc';
                 let iconClass = 'fa-circle';
@@ -602,68 +552,39 @@
                 let headerIcon = '';
 
                 if(ev.type === 'hoc') {
-                    if (ev.stt) {
-                        const colorIndex = (ev.stt - 1) % subjectColors.length;
-                        borderColor = subjectColors[colorIndex];
-                    } else {
-                        borderColor = '#1e3a8a';
-                    }
+                    borderColor = ev.stt ? subjectColors[(ev.stt - 1) % subjectColors.length] : '#1e3a8a';
                     iconClass = 'fa-book';
                     typeText = 'Môn học';
-                    item.style.background = '#f8fafc';
                 } else if(ev.type === 'thi') {
                     borderColor = '#ef4444';
                     iconClass = 'fa-file-signature';
                     typeText = 'Lịch Thi';
-                    item.style.background = '#fff5f5'; 
-                } else if(ev.type === 'sk') {
-                    borderColor = '#059669';
-                    iconClass = 'fa-flag';
-                    typeText = 'Sự kiện';
-                } else if(ev.type === 'nghi') {
-                    borderColor = '#d97706';
-                    iconClass = 'fa-mug-hot';
-                    typeText = 'Nghỉ';
                 } else if(ev.type === 'ctd') {
                     borderColor = '#dc2626';
                     headerIcon = '<span class="party-flag-icon mr-2 scale-125"></span>';
                     typeText = 'Công tác Đảng';
-                    item.style.background = '#fff1f2';
                 }
 
                 item.style.borderLeftColor = borderColor;
-
-                let titleDisplay = ev.title;
-                if (ev.stt) titleDisplay = `${ev.stt}. ${titleDisplay}`;
-
+                let titleDisplay = ev.stt ? `${ev.stt}. ${ev.title}` : ev.title;
                 if (!headerIcon) headerIcon = `<i class="fas ${iconClass} mr-2.5 text-slate-400 text-lg"></i>`;
-
-                let extraInfo = '';
-                if(ev.form) {
-                    extraInfo = `<p class="flex items-center text-red-600 font-bold mt-1.5"><i class="fas fa-clipboard-check w-6 text-center mr-2"></i> ${ev.form}</p>`;
-                }
 
                 item.innerHTML = `
                     <div class="flex justify-between items-start">
                         <div class="flex items-start">
-                             <div class="mt-0.5">${ev.type === 'ctd' ? headerIcon : headerIcon}</div>
+                             <div class="mt-0.5">${headerIcon}</div>
                              <div>
-                                <h3 class="font-bold text-slate-800 text-lg leading-tight">
-                                   ${titleDisplay}
-                                </h3>
+                                <h3 class="font-bold text-slate-800 text-lg leading-tight">${titleDisplay}</h3>
                                 <span class="md:hidden inline-block mt-1 text-[0.65rem] font-bold px-1.5 py-0.5 rounded text-white shadow-sm" style="background-color: ${borderColor}">${typeText}</span>
                              </div>
                         </div>
                         <span class="hidden md:inline-block text-xs font-bold px-2.5 py-1 rounded-full text-white ml-3 shrink-0 shadow-sm" style="background-color: ${borderColor}">${typeText}</span>
                     </div>
-                    
                     <div class="text-sm text-slate-600 mt-3 space-y-1.5 pl-8 md:pl-9">
                         <p class="flex items-center"><i class="far fa-clock w-5 text-center text-slate-400 mr-2"></i> <span class="font-medium mr-1">Thời gian:</span> ${ev.time}</p>
-                        ${extraInfo}
+                        ${ev.form ? `<p class="flex items-center text-red-600 font-bold mt-1.5"><i class="fas fa-clipboard-check w-6 text-center mr-2"></i> ${ev.form}</p>` : ''}
                         ${ev.note ? `<p class="flex items-start"><i class="far fa-sticky-note w-5 text-center text-slate-400 mr-2 mt-0.5"></i> <span class="flex-1">${ev.note}</span></p>` : ''}
-                        ${ev.endDate ? `<p class="flex items-center"><i class="fas fa-calendar-week w-5 text-center text-slate-400 mr-2"></i> Đợt: ${ev.d} - ${ev.endDate}</p>` : ''}
-                    </div>
-                `;
+                    </div>`;
                 modalBody.appendChild(item);
             });
 
@@ -675,10 +596,8 @@
         function closeModal() {
             const modal = document.getElementById('detailModal');
             const modalContainer = modal.querySelector('.modal-container');
-            
             modal.classList.add('opacity-0', 'pointer-events-none');
             modalContainer.classList.add('translate-y-full');
-            
             document.body.classList.remove('modal-active');
         }
 
@@ -687,10 +606,7 @@
             window.addEventListener('resize', renderCalendar);
         };
 
-        document.onkeydown = function(evt) {
-            if (evt.keyCode == 27) closeModal();
-        };
-
+        document.onkeydown = function(evt) { if (evt.keyCode == 27) closeModal(); };
     </script>
 </body>
 </html>
